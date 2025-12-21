@@ -8,10 +8,10 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use common\models\MemberInfo;
-use common\models\TeamInfo;
+use common\models\HeroInfo;
+use common\models\WarCampaign;
 
-class MemberController extends Controller
+class HeroController extends Controller
 {
     public function behaviors()
     {
@@ -37,62 +37,43 @@ class MemberController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => MemberInfo::find(),
-            'pagination' => [
-                'pageSize' => 20,
-            ],
+            'query' => HeroInfo::find()->orderBy(['hero_id' => SORT_ASC]),
+            'pagination' => ['pageSize' => 20],
         ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     public function actionCreate()
     {
-        $model = new MemberInfo();
-        $teamOptions = \yii\helpers\ArrayHelper::map(TeamInfo::find()->orderBy(['team_id' => SORT_ASC])->all(), 'team_id', 'team_name');
-
+        $model = new HeroInfo();
+        $campaignOptions = \yii\helpers\ArrayHelper::map(WarCampaign::find()->orderBy(['campaign_id' => SORT_ASC])->all(), 'campaign_id', 'campaign_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', '成员信息已创建。');
+            Yii::$app->session->setFlash('success', '英雄信息已创建。');
             return $this->redirect(['index']);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-            'teamOptions' => $teamOptions,
-        ]);
+        return $this->render('create', ['model' => $model, 'campaignOptions' => $campaignOptions]);
     }
 
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $teamOptions = \yii\helpers\ArrayHelper::map(TeamInfo::find()->orderBy(['team_id' => SORT_ASC])->all(), 'team_id', 'team_name');
-
+        $campaignOptions = \yii\helpers\ArrayHelper::map(WarCampaign::find()->orderBy(['campaign_id' => SORT_ASC])->all(), 'campaign_id', 'campaign_name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', '成员信息已更新。');
+            Yii::$app->session->setFlash('success', '英雄信息已更新。');
             return $this->redirect(['index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'teamOptions' => $teamOptions,
-        ]);
+        return $this->render('update', ['model' => $model, 'campaignOptions' => $campaignOptions]);
     }
 
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        Yii::$app->session->setFlash('success', '成员信息已删除。');
         return $this->redirect(['index']);
     }
 
     protected function findModel($id)
     {
-        if (($model = MemberInfo::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('请求的成员不存在。');
+        if (($model = HeroInfo::findOne($id)) !== null) { return $model; }
+        throw new NotFoundHttpException('请求的英雄不存在。');
     }
 }

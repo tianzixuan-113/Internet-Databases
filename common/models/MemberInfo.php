@@ -26,4 +26,9 @@ class MemberInfo extends ActiveRecord
             [['duty'], 'string', 'max' => 50],
         ];
     }
+
+    public function getTeam()
+    {
+        return $this->hasOne(TeamInfo::class, ['team_id' => 'team_id']);
+    }
 }

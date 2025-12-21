@@ -17,7 +17,7 @@ class TeamInfo extends ActiveRecord
             [['team_name', 'project_topic'], 'required'],
             [['division_work'], 'string'],
             [['create_time'], 'safe'],
-            [['team_name', 'team_name'], 'string', 'max' => 50],
+            [['team_name'], 'string', 'max' => 50],
             [['project_topic'], 'string', 'max' => 100],
         ];
     }

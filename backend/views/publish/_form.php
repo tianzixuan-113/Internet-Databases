@@ -14,7 +14,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'publish_time')->textInput() ?>
-    <?= $form->field($model, 'publisher_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? '发布' : '保存', ['class' => 'btn btn-primary']) ?>

@@ -55,6 +55,9 @@ class PublishController extends Controller
             if (empty($model->publish_time)) {
                 $model->publish_time = date('Y-m-d H:i:s');
             }
+            if (empty($model->publisher_id) && !Yii::$app->user->isGuest) {
+                $model->publisher_id = Yii::$app->user->id;
+            }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '资讯已发布。');
                 return $this->redirect(['index']);
@@ -70,9 +73,14 @@ class PublishController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if (empty($model->publisher_id) && !Yii::$app->user->isGuest) {
+                $model->publisher_id = Yii::$app->user->id;
+            }
+            if ($model->save()) {
             Yii::$app->session->setFlash('success', '资讯已更新。');
             return $this->redirect(['index']);
+            }
         }
 
         return $this->render('update', [

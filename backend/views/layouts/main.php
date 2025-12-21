@@ -46,6 +46,12 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '战役管理', 'url' => ['/campaign/index']];
         $menuItems[] = ['label' => '资讯发布', 'url' => ['/publish/index']];
         $menuItems[] = ['label' => '留言管理', 'url' => ['/message/index']];
+        $menuItems[] = ['label' => '数据统计', 'url' => ['/statistics/index']];
+        $menuItems[] = ['label' => '英雄信息', 'url' => ['/hero/index']];
+        $menuItems[] = ['label' => '史料文献', 'url' => ['/doc/index']];
+        $menuItems[] = ['label' => '图片资源', 'url' => ['/image/index']];
+        $menuItems[] = ['label' => '文物信息', 'url' => ['/relic/index']];
+        $menuItems[] = ['label' => '权限管理', 'url' => ['/permission/index']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
