@@ -1,0 +1,88 @@
+/* 抗战胜利80周年后台主题样式 */
+
+body {
+    background-color: #f4f5f7;
+}
+
+.wrap {
+    padding-top: 70px;
+}
+
+.navbar-inverse {
+    background-color: #8b0000;
+    border-color: #5c0000;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+    color: #f9f9f9;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #ffffff;
+}
+
+.brand-title {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.brand-subtitle {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.footer {
+    border-top: 1px solid #ddd;
+    background-color: #ffffff;
+}
+
+.container {
+    background-color: #f4caca;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.table > thead > tr > th {
+    background-color: #fafafa;
+}
+
+.btn-primary {
+    background-color: #8b0000;
+    border-color: #5c0000;
+}
+
+.btn-primary:hover {
+    background-color: #a40000;
+    border-color: #6a0000;
+}
+
+/* 提升按钮与白色背景的对比度 */
+.btn-default,
+.btn {
+    border-radius: 3px;
+}
+
+.btn-default {
+    background-color: #f0f0f0;
+    border-color: #cccccc;
+    color: #333333;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+    background-color: #e0e0e0;
+    border-color: #bbbbbb;
+    color: #111111;
+}
+
+/* 二级按钮（如“返回列表”等）也更明显一点 */
+.btn-link.logout {
+    color: #ffd6d6;
+}
+
+.btn-link.logout:hover {
+    color: #ffffff;
+}
