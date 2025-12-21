@@ -65,6 +65,14 @@ class HeroController extends Controller
         return $this->render('update', ['model' => $model, 'campaignOptions' => $campaignOptions]);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();

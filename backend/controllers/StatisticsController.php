@@ -71,4 +71,12 @@ class StatisticsController extends Controller
         if (($model = DataStatistics::findOne($id)) !== null) { $model->delete(); }
         return $this->redirect(['index']);
     }
+
+    public function actionView($id)
+    {
+        if (($model = DataStatistics::findOne($id)) === null) {
+            throw new \yii\web\NotFoundHttpException('记录不存在');
+        }
+        return $this->render('view', ['model' => $model]);
+    }
 }

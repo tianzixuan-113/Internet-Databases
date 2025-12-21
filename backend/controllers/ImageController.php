@@ -55,9 +55,18 @@ class ImageController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     protected function findModel($id)
     {
         if (($model = ImageResource::findOne($id)) !== null) { return $model; }
         throw new NotFoundHttpException('请求的图片不存在。');
     }
 }
+*** End Patch

@@ -88,6 +88,14 @@ class PublishController extends Controller
         ]);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();

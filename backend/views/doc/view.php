@@ -1,0 +1,40 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+
+/* @var $this yii\web\View */
+/* @var $model common\models\HistoricalDoc */
+
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => '史料文献管理', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+
+<div class="doc-view">
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('编辑', ['update', 'id' => $model->doc_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->doc_id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => '确定要删除该文献记录吗？',
+                'method' => 'post',
+            ],
+        ]) ?>
+        <?= Html::a('返回列表', ['index'], ['class' => 'btn btn-default']) ?>
+    </p>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'doc_id',
+            'title',
+            'author',
+            'publish_year',
+            'summary:ntext',
+            'full_text:ntext',
+        ],
+    ]) ?>
+</div>

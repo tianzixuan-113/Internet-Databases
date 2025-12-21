@@ -55,6 +55,14 @@ class PermissionController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     protected function findModel($id)
     {
         if (($model = Permission::findOne($id)) !== null) { return $model; }

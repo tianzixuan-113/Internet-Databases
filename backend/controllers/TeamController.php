@@ -59,6 +59,14 @@ class TeamController extends Controller
         ]);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     protected function findModel($id)
     {
         if (($model = TeamInfo::findOne($id)) !== null) {
