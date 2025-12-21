@@ -31,10 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'member_id',
             'member_name',
-            'team_id',
-            'role',
-            'join_date',
-            'description:ntext',
+            [
+                'attribute' => 'team_id',
+                'value' => $model->team ? $model->team->team_name . ' (ID: ' . $model->team_id . ')' : '未分配团队',
+            ],
+            'student_id',
+            'duty',
+            'introduction:ntext',
         ],
     ]) ?>
 </div>

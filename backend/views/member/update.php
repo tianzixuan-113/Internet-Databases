@@ -15,5 +15,6 @@ $this->params['breadcrumbs'][] = '编辑';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'teamOptions' => $teamOptions,
     ]) ?>
 </div>

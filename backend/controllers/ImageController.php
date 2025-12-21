@@ -69,4 +69,3 @@ class ImageController extends Controller
         throw new NotFoundHttpException('请求的图片不存在。');
     }
 }
-*** End Patch
