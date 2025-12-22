@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Permission */
 
-$this->title = $model->perm_name;
+$this->title = '权限 #' . $model->perm_id;
 $this->params['breadcrumbs'][] = ['label' => '权限管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,8 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'perm_id',
-            'perm_name',
-            'description:ntext',
+            'member_id',
+            'perm_level',
+            'perm_desc',
         ],
     ]) ?>
 </div>

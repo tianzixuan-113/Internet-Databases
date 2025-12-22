@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\ImageResource */
 
-$this->title = $model->title ?: ('图片 #' . $model->img_id);
+$this->title = '图片 #' . $model->img_id;
 $this->params['breadcrumbs'][] = ['label' => '图片资源管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,10 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'img_id',
-            'title',
-            'file_path',
+            'img_url:url',
+            'img_desc',
             'related_id',
-            'description:ntext',
         ],
     ]) ?>
 </div>

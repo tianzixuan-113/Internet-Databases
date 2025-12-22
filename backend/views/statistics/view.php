@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('编辑', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('删除', ['delete', 'id' => $model->id], [
+        <?= Html::a('编辑', ['update', 'id' => $model->stat_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->stat_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => '确定要删除该统计记录吗？',
@@ -29,12 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            'stat_id',
+            'stat_type',
             'stat_year',
-            'battle_count',
-            'hero_count',
-            'relic_count',
-            'doc_count',
+            'stat_count',
         ],
     ]) ?>
 </div>

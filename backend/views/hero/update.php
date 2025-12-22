@@ -6,5 +6,5 @@ $this->params['breadcrumbs'][] = '编辑';
 ?>
 <div class="hero-update">
 <h1><?= Html::encode($this->title) ?></h1>
-<?= $this->render('_form', ['model' => $model]) ?>
+<?= $this->render('_form', ['model' => $model, 'campaignOptions' => $campaignOptions]) ?>
 </div>

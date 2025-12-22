@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\HistoricalDoc */
 
-$this->title = $model->title;
+$this->title = $model->doc_name;
 $this->params['breadcrumbs'][] = ['label' => '史料文献管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,11 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'doc_id',
-            'title',
-            'author',
-            'publish_year',
-            'summary:ntext',
-            'full_text:ntext',
+            'doc_name',
+            'doc_type',
+            'related_campaign_id',
+            'doc_summary:ntext',
         ],
     ]) ?>
 </div>

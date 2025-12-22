@@ -31,10 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'hero_id',
             'hero_name',
+            'native_place',
+            'army',
             'campaign_id',
-            'birthplace',
-            'rank',
-            'description:ntext',
+            'deed:ntext',
         ],
     ]) ?>
 </div>

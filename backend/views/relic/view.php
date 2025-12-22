@@ -31,8 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'relic_id',
             'relic_name',
-            'location',
-            'era',
+            'relic_type',
+            'age',
+            'collection_place',
             'description:ntext',
         ],
     ]) ?>
