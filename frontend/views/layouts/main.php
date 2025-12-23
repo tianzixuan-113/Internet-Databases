@@ -37,9 +37,12 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => '首页', 'url' => ['/site/index']],
+        ['label' => '团队介绍', 'url' => ['/team/index']],
         ['label' => '战役历史', 'url' => ['/campaign/index']],
         ['label' => '抗战英雄', 'url' => ['/hero/index']],
         ['label' => '史料文献', 'url' => ['/doc/index']],
+        ['label' => '图片资源', 'url' => ['/image/index']],
+        ['label' => '留言板', 'url' => ['/message/index']],
         ['label' => '搜索数据', 'url' => ['/search/index']],
     ];
     if (Yii::$app->user->isGuest) {
