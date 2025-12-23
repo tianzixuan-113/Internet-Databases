@@ -354,7 +354,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="image-card h-100">
                             <div class="image-container">
                                 <?php if (!empty($image->img_url)): ?>
-                                    <img src="<?= Html::encode($image->img_url) ?>" alt="<?= Html::encode($image->img_desc) ?>" title="<?= Html::encode($image->img_desc) ?>">
+                                    <?php
+                                        $raw = trim($image->img_url);
+                                        $src = preg_match('/^https?:\/\//i', $raw) ? $raw : ('http://' . ltrim($raw, '/'));
+                                    ?>
+                                     <img src="<?= Html::encode($src) ?>"
+                                         alt="<?= Html::encode($image->img_desc) ?>"
+                                         title="<?= Html::encode($image->img_desc) ?>"
+                                         referrerpolicy="no-referrer"
+                                         loading="lazy"
+                                         onerror="if(!this.dataset.retry && this.src.indexOf('http://')===0){this.dataset.retry=1;this.src=this.src.replace(/^http:/,'https:');}else{this.onerror=null;this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';this.style.objectFit='contain';}">
                                     <div class="image-overlay">
                                         <h5 class="mb-0" style="font-size: 1.5rem;"><?= Html::encode(mb_substr($image->img_desc, 0, 40)) ?><?= mb_strlen($image->img_desc) > 40 ? '...' : '' ?></h5>
                                     </div>

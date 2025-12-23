@@ -9,7 +9,26 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
-        'img_id','img_url','img_desc','related_id',
+        'img_id',
+        [
+            'label' => '图片',
+            'format' => 'raw',
+            'value' => function($model){
+                $url = trim($model->img_url);
+                if (!preg_match('#^https?://#i', $url)) {
+                    $url = 'http://' . ltrim($url, '/');
+                }
+                $img = Html::img($url, [
+                    'style' => 'max-width:120px;max-height:80px',
+                    'referrerpolicy' => 'no-referrer',
+                    'loading' => 'lazy',
+                    'onerror' => "if(!this.dataset.retry && this.src.indexOf('http://')===0){this.dataset.retry=1;this.src=this.src.replace(/^http:/,'https:');}else{this.onerror=null;this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';}"
+                ]);
+                return Html::a($img, $url, ['target' => '_blank']);
+            }
+        ],
+        'img_desc',
+        'related_id',
         ['class' => 'yii\\grid\\ActionColumn'],
     ],
 ]) ?>
