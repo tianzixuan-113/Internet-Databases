@@ -1,0 +1,72 @@
+/* Solemn light theme for 80th Anniversary */
+:root {
+  --bg: #f5f2e9;
+  --bg-alt: #eef1f5;
+  --text: #1d2a35;
+  --muted: #64707b;
+  --primary: #8B1A1A; /* deep red */
+  --accent: #003366;  /* navy */
+  --success: #2f7d32;
+  --warning: #a06419;
+  --card: #ffffff;
+  --border: #e2e6ea;
+  --shadow: rgba(0,0,0,0.08);
+  --grad-a: #f7f5ef;
+  --grad-b: #eaeef3;
+}
+
+body {
+  background: linear-gradient(180deg, var(--grad-a), var(--grad-b));
+  color: var(--text);
+}
+
+.navbar-inverse {
+  background-color: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav>li>a {
+  color: var(--text);
+}
+.navbar-inverse .navbar-nav>li>a:hover { color: var(--primary); }
+.navbar-inverse .navbar-brand:hover { color: var(--accent); }
+.nav-icon a { font-size: 16px !important; }
+
+.wrap .container { padding-top: 30px; }
+
+/* Hero (static, symbolic) */
+.hero-banner {
+  position: relative;
+  height: 280px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(120deg, rgba(139,26,26,0.08), rgba(0,51,102,0.08));
+  box-shadow: 0 12px 28px var(--shadow);
+}
+.hero-banner .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .18; }
+.hero-banner .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.85)); }
+.hero-banner .content { position: absolute; left: 32px; bottom: 28px; }
+.hero-banner h1 { font-size: 28px; margin: 0 0 6px 0; color: var(--accent); }
+.hero-banner p { color: var(--muted); margin: 0; }
+
+/* 2x3 Home Grid */
+.home-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin-top: 22px; }
+.home-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: 0 6px 16px var(--shadow); transition: transform .15s ease, box-shadow .2s ease, border-color .2s; }
+.home-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--shadow); border-color: var(--primary); }
+.home-card .icon { font-size: 24px; color: var(--primary); }
+.home-card .title { font-weight: 700; margin-top: 8px; color: var(--text); }
+.home-card .desc { color: var(--muted); margin-top: 6px; }
+.home-card .link { margin-top: 10px; color: var(--accent); font-weight: 600; display: inline-block; }
+.home-card .link:hover { color: var(--primary); text-decoration: none; }
+
+/* Utility */
+.section-title { margin: 26px 0 12px; font-size: 20px; font-weight: 700; color: var(--accent); }
+.section-sub { color: var(--muted); margin-bottom: 12px; }
+
+/* Footer */
+.footer { background: #ffffff; border-top: 1px solid var(--border); }
+.footer .container { color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 992px) { .home-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 576px) { .home-grid { grid-template-columns: 1fr; } }

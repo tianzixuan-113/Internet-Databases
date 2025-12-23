@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => '烽火记忆',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -37,9 +37,16 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => '首页', 'url' => ['/site/index']],
-        ['label' => '留言板', 'url' => ['/site/message-board']],
-        ['label' => '关于项目', 'url' => ['/site/about']],
-        ['label' => '联系团队', 'url' => ['/site/contact']],
+        ['label' => '英雄榜', 'url' => ['#']],
+        ['label' => '战役回顾', 'url' => ['#']],
+        ['label' => '数据总览', 'url' => ['#']],
+        ['label' => '史料文献', 'url' => ['#']],
+        ['label' => '图片资源', 'url' => ['#']],
+        ['label' => '文物展示', 'url' => ['#']],
+        ['label' => '关于', 'url' => ['/site/about']],
+        // 右侧功能图标（设置 / 寄语）
+        ['label' => '<i class="fa-solid fa-gear"></i>', 'url' => ['#'], 'options' => ['class' => 'nav-icon']],
+        ['label' => '<i class="fa-solid fa-seedling"></i>', 'url' => ['/site/message-board'], 'options' => ['class' => 'nav-icon'], 'linkOptions' => ['title' => '寄语']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -57,6 +64,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
+        'encodeLabels' => false,
     ]);
     NavBar::end();
     ?>
