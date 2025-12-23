@@ -1,0 +1,9 @@
+RewriteEngine on
+
+# 如果是目录或文件存在则直接访问
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .? - [L]
+
+# 否则重定向到index.php
+RewriteRule ^ index.php [L]
