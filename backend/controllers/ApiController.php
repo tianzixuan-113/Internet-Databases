@@ -139,6 +139,33 @@ class ApiController extends Controller
         return $this->asJson(['ok' => true, 'data' => $data]);
     }
 
+    // 图片域名分布 Top N（其余合并为“其他”）
+    public function actionImageHostDist($top = 8)
+    {
+        $top = max(1, min((int)$top, 20));
+        $rows = (new \yii\db\Query())
+            ->select(['img_url'])
+            ->from(ImageResource::tableName())
+            ->all();
+        $hostMap = [];
+        foreach ($rows as $r) {
+            $raw = trim((string)$r['img_url']);
+            if ($raw === '') continue;
+            if (!preg_match('/^https?:\/\//i', $raw)) { $raw = 'http://' . ltrim($raw, '/'); }
+            $host = parse_url($raw, PHP_URL_HOST) ?: 'unknown';
+            $hostMap[$host] = ($hostMap[$host] ?? 0) + 1;
+        }
+        arsort($hostMap);
+        $data = []; $other = 0; $i = 0;
+        foreach ($hostMap as $host => $cnt) {
+            if ($i < $top) { $data[] = ['host' => $host, 'count' => (int)$cnt]; }
+            else { $other += (int)$cnt; }
+            $i++;
+        }
+        if ($other > 0) { $data[] = ['host' => '其他', 'count' => $other]; }
+        return $this->asJson(['ok' => true, 'data' => $data]);
+    }
+
     public function actionProbeImage($url)
     {
         $url = trim((string)$url);

@@ -26,27 +26,27 @@ $visitCounts = array_column($visitTrend, 'count');
     <div class="dashboard-row dashboard-row--top">
         <div class="metric-card metric-card--primary">
             <div class="metric-card__label">文物资料总数</div>
-            <div class="metric-card__value"><?= (int)$totals['relics'] ?></div>
+            <div class="metric-card__value js-counter" data-target="<?= (int)$totals['relics'] ?>">0</div>
             <div class="metric-card__meta">涵盖重要抗战文物与藏品</div>
         </div>
         <div class="metric-card">
             <div class="metric-card__label">史料文献总数</div>
-            <div class="metric-card__value"><?= (int)$totals['docs'] ?></div>
+            <div class="metric-card__value js-counter" data-target="<?= (int)$totals['docs'] ?>">0</div>
             <div class="metric-card__meta">战报、电报、回忆录等文献</div>
         </div>
         <div class="metric-card">
             <div class="metric-card__label">英雄人物数量</div>
-            <div class="metric-card__value"><?= (int)$totals['heroes'] ?></div>
+            <div class="metric-card__value js-counter" data-target="<?= (int)$totals['heroes'] ?>">0</div>
             <div class="metric-card__meta">关联典型战役与部队信息</div>
         </div>
         <div class="metric-card">
             <div class="metric-card__label">战役档案数量</div>
-            <div class="metric-card__value"><?= (int)$totals['campaigns'] ?></div>
+            <div class="metric-card__value js-counter" data-target="<?= (int)$totals['campaigns'] ?>">0</div>
             <div class="metric-card__meta">覆盖重要战役节点</div>
         </div>
         <div class="metric-card">
             <div class="metric-card__label">近 7 日新增留言</div>
-            <div class="metric-card__value"><?= (int)$messagesLast7 ?></div>
+            <div class="metric-card__value js-counter" data-target="<?= (int)$messagesLast7 ?>">0</div>
             <div class="metric-card__trend <?= $messageTrend === null ? '' : ($messageTrend >= 0 ? 'is-up' : 'is-down') ?>">
                 <?php if ($messageTrend === null): ?>
                     暂无历史对比数据
@@ -92,6 +92,42 @@ $visitCounts = array_column($visitTrend, 'count');
         </div>
     </div>
 
+    <div class="dashboard-row">
+        <div class="dashboard-panel dashboard-panel--lg">
+            <div class="dashboard-panel__header" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                <div>
+                    <div class="dashboard-panel__title">Top 路由</div>
+                    <div class="dashboard-panel__subtitle">前台访问最多的页面（动态刷新）</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <label for="daysSelAdmin" style="color:#94a3b8;">天数</label>
+                    <select id="daysSelAdmin" class="form-control" style="min-width:100px;">
+                        <option value="7" selected>近 7 天</option>
+                        <option value="14">近 14 天</option>
+                        <option value="30">近 30 天</option>
+                    </select>
+                    <label style="color:#94a3b8;">自动刷新</label>
+                    <input type="checkbox" id="autoRefreshAdmin" checked>
+                </div>
+            </div>
+            <div style="height:280px; max-width:100%; overflow:hidden;">
+                <canvas id="topRoutesChartAdmin" height="240"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-row">
+        <div class="dashboard-panel dashboard-panel--sm">
+            <div class="dashboard-panel__header">
+                <div class="dashboard-panel__title">图片域名分布</div>
+                <div class="dashboard-panel__subtitle">图片链接所指向域名的占比（动态刷新）</div>
+            </div>
+            <div style="height:240px; max-width:100%; overflow:hidden;">
+                <canvas id="imageHostChartAdmin" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+
     <div class="dashboard-row dashboard-row--bottom">
         <div class="dashboard-panel dashboard-panel--list">
             <div class="dashboard-panel__header">
@@ -115,6 +151,28 @@ $visitCounts = array_column($visitTrend, 'count');
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// 简易数字递增动画 + Chart 全局动画
+(function(){
+    function animateCounter(el, to){
+        var start = 0, dur = 900, t0 = performance.now();
+        function step(t){
+            var p = Math.min((t - t0)/dur, 1);
+            el.textContent = Math.floor(start + (to - start) * (1 - Math.pow(1-p, 3)));
+            if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+    document.querySelectorAll('.js-counter').forEach(function(el){
+        var to = parseInt(el.getAttribute('data-target')||'0',10);
+        animateCounter(el, to);
+    });
+    if (window.Chart && Chart.defaults && Chart.defaults.global && Chart.defaults.global.animation) {
+        Chart.defaults.global.animation.duration = 900;
+        Chart.defaults.global.animation.easing = 'easeOutQuart';
+    }
+})();
+</script>
 <script>
     (function() {
         var ctx = document.getElementById('campaignHeroChart');
@@ -196,7 +254,7 @@ $visitCounts = array_column($visitTrend, 'count');
         if (!vctx) return;
         var labels = <?= Json::encode($visitLabels) ?>;
         var counts = <?= Json::encode($visitCounts) ?>;
-        new Chart(vctx.getContext('2d'), {
+        var visitChart = new Chart(vctx.getContext('2d'), {
             type: 'line',
             data: {
                 labels: labels,
@@ -217,5 +275,81 @@ $visitCounts = array_column($visitTrend, 'count');
                 }
             }
         });
+
+        // Admin dynamic charts: Top Routes + Image Host Dist
+        var topRoutesCtx = document.getElementById('topRoutesChartAdmin')?.getContext('2d');
+        var imageHostCtx = document.getElementById('imageHostChartAdmin')?.getContext('2d');
+        var topRoutesChart = null;
+        var imageHostChart = null;
+        var autoChk = document.getElementById('autoRefreshAdmin');
+        var daysSel = document.getElementById('daysSelAdmin');
+        var timer = null;
+
+        function ensureCharts(){
+            if (topRoutesCtx && !topRoutesChart) {
+                topRoutesChart = new Chart(topRoutesCtx, {
+                    type: 'bar',
+                    data: { labels: [], datasets: [{
+                        label: '访问量', data: [],
+                        backgroundColor: 'rgba(34,197,94,0.25)',
+                        borderColor: 'rgba(34,197,94,0.9)', borderWidth: 1
+                    }]},
+                    options: { indexAxis: 'y', responsive:true, maintainAspectRatio:false,
+                        scales:{ x:{ beginAtZero:true, ticks:{ precision:0 } }, y:{} },
+                        animation:{ duration: 800 } }
+                });
+            }
+            if (imageHostCtx && !imageHostChart) {
+                imageHostChart = new Chart(imageHostCtx, {
+                    type: 'doughnut',
+                    data: { labels: [], datasets: [{ data: [], backgroundColor: ['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#22c55e','#06b6d4','#94a3b8'], borderWidth:1 }]},
+                    options: { responsive:true, maintainAspectRatio:false, cutout: '60%' }
+                });
+            }
+        }
+
+        async function refreshData(){
+            try {
+                // visits summary (days selector)
+                var days = parseInt(daysSel?.value||'7',10);
+                var vres = await fetch('index.php?r=api/visits-summary&days=' + days, {cache:'no-cache'});
+                var vjson = await vres.json();
+                if (vjson && vjson.ok && Array.isArray(vjson.data)){
+                    visitChart.data.labels = vjson.data.map(function(x){return x.day;});
+                    visitChart.data.datasets[0].data = vjson.data.map(function(x){return parseInt(x.count,10)||0;});
+                    visitChart.update();
+                }
+
+                ensureCharts();
+
+                // top routes
+                if (topRoutesChart){
+                    var rres = await fetch('index.php?r=api/top-routes&limit=8', {cache:'no-cache'});
+                    var rjson = await rres.json();
+                    if (rjson && rjson.ok && Array.isArray(rjson.data)){
+                        topRoutesChart.data.labels = rjson.data.map(function(x){return x.route;});
+                        topRoutesChart.data.datasets[0].data = rjson.data.map(function(x){return parseInt(x.count,10)||0;});
+                        topRoutesChart.update();
+                    }
+                }
+
+                // image host dist
+                if (imageHostChart){
+                    var hres = await fetch('index.php?r=api/image-host-dist&top=8', {cache:'no-cache'});
+                    var hjson = await hres.json();
+                    if (hjson && hjson.ok && Array.isArray(hjson.data)){
+                        imageHostChart.data.labels = hjson.data.map(function(x){return x.host;});
+                        imageHostChart.data.datasets[0].data = hjson.data.map(function(x){return parseInt(x.count,10)||0;});
+                        imageHostChart.update();
+                    }
+                }
+            } catch(e) { /* ignore */ }
+        }
+
+        function startTimer(){ if (timer) clearInterval(timer); timer = setInterval(function(){ if (!autoChk || autoChk.checked) refreshData(); }, 10000); }
+        if (daysSel) daysSel.addEventListener('change', refreshData);
+        if (autoChk) autoChk.addEventListener('change', function(){ if (autoChk.checked) refreshData(); });
+        // initial load
+        refreshData(); startTimer();
     })();
 </script>
