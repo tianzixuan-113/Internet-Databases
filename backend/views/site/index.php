@@ -60,7 +60,9 @@ $heroCampaignCounts = array_column($heroByCampaign, 'count');
                 <div class="dashboard-panel__title">战役与英雄分布概览</div>
                 <div class="dashboard-panel__subtitle">按年份统计战役数量，并对比各战役下英雄数量</div>
             </div>
-            <canvas id="campaignHeroChart" height="120"></canvas>
+            <div style="height:280px; max-width:100%; overflow:hidden;">
+                <canvas id="campaignHeroChart" height="240"></canvas>
+            </div>
         </div>
 
         <div class="dashboard-panel dashboard-panel--sm">
@@ -68,7 +70,9 @@ $heroCampaignCounts = array_column($heroByCampaign, 'count');
                 <div class="dashboard-panel__title">资源类型占比</div>
                 <div class="dashboard-panel__subtitle">文物、文献、英雄、战役等资源结构</div>
             </div>
-            <canvas id="resourcePieChart" height="180"></canvas>
+            <div style="height:240px; max-width:100%; overflow:hidden;">
+                <canvas id="resourcePieChart" height="220"></canvas>
+            </div>
         </div>
     </div>
 
@@ -122,7 +126,12 @@ $heroCampaignCounts = array_column($heroByCampaign, 'count');
                 maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
-                        ticks: { beginAtZero: true, precision: 0 }
+                        ticks: { beginAtZero: true, precision: 0 },
+                        gridLines: { color: 'rgba(148, 163, 184, 0.2)' }
+                    }],
+                    xAxes: [{
+                        gridLines: { color: 'rgba(148, 163, 184, 0.2)' },
+                        ticks: { maxRotation: 0, autoSkip: true }
                     }]
                 }
             }

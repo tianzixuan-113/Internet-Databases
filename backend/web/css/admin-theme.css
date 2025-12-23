@@ -293,6 +293,12 @@ body.admin-body {
     padding: 12px 0;
 }
 
+/* 深色主题下表格斑马纹与表头可读性优化 */
+body.admin-body .table-striped > tbody > tr:nth-of-type(odd) { background-color: #23272e; }
+body.admin-body .table-striped > tbody > tr:nth-of-type(even) { background-color: #181b20; }
+body.admin-body .table > thead > tr > th { background-color: #111827; color: #e5e7eb; }
+body.admin-body .table > tbody > tr > td { color: #d1d5db; }
+
 .btn-primary {
     background-color: #8b0000;
     border-color: #5c0000;

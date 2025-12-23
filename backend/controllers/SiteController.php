@@ -69,53 +69,56 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $totalRelics = RelicInfo::find()->count();
-        $totalDocs = HistoricalDoc::find()->count();
-        $totalHeroes = HeroInfo::find()->count();
-        $totalCampaigns = WarCampaign::find()->count();
-        $totalMembers = MemberInfo::find()->count();
-        $totalTeams = TeamInfo::find()->count();
+        $cache = \Yii::$app->cache;
 
-        $totalMessages = MessageBoard::find()->count();
+        $totals = $cache->getOrSet('dashboard_totals', function() {
+            return [
+                'relics' => RelicInfo::find()->count(),
+                'docs' => HistoricalDoc::find()->count(),
+                'heroes' => HeroInfo::find()->count(),
+                'campaigns' => WarCampaign::find()->count(),
+                'members' => MemberInfo::find()->count(),
+                'teams' => TeamInfo::find()->count(),
+                'messages' => MessageBoard::find()->count(),
+            ];
+        }, 300);
 
-        $today = date('Y-m-d 00:00:00');
         $sevenDaysAgo = date('Y-m-d 00:00:00', strtotime('-7 days'));
-        $messagesLast7 = MessageBoard::find()
-            ->where(['>=', 'msg_time', $sevenDaysAgo])
-            ->count();
-        $messagesPrev7 = MessageBoard::find()
-            ->where(['<', 'msg_time', $sevenDaysAgo])
-            ->andWhere(['>=', 'msg_time', date('Y-m-d 00:00:00', strtotime('-14 days'))])
-            ->count();
+        $messagesLast7 = $cache->getOrSet('dashboard_messages_last7', function() use ($sevenDaysAgo) {
+            return MessageBoard::find()->where(['>=', 'msg_time', $sevenDaysAgo])->count();
+        }, 300);
+        $messagesPrev7 = $cache->getOrSet('dashboard_messages_prev7', function() use ($sevenDaysAgo) {
+            $prevStart = date('Y-m-d 00:00:00', strtotime('-14 days'));
+            return MessageBoard::find()->where(['<', 'msg_time', $sevenDaysAgo])->andWhere(['>=', 'msg_time', $prevStart])->count();
+        }, 300);
+        $messageTrend = $messagesPrev7 > 0 ? round((($messagesLast7 - $messagesPrev7) / $messagesPrev7) * 100) : null;
 
-        $messageTrend = $messagesPrev7 > 0
-            ? round((($messagesLast7 - $messagesPrev7) / $messagesPrev7) * 100)
-            : null;
+        // 仅取最近 10 年的战役统计，避免过长的柱形图，提高加载速度
+        $campaignByYear = $cache->getOrSet('dashboard_campaign_by_year_10', function() {
+            $query = (new \yii\db\Query())
+                ->select(["year" => "YEAR(start_time)", 'count' => 'COUNT(*)'])
+                ->from(WarCampaign::tableName())
+                ->groupBy(["YEAR(start_time)"])
+                ->orderBy(["YEAR(start_time)" => SORT_DESC])
+                ->limit(10);
+            $rows = $query->all();
+            // 翻转成升序显示（从老到新）
+            return array_reverse($rows);
+        }, 300);
 
-        $campaignByYear = (new \yii\db\Query())
-            ->select(["year" => "YEAR(start_time)", 'count' => 'COUNT(*)'])
-            ->from(WarCampaign::tableName())
-            ->groupBy(["YEAR(start_time)"])
-            ->orderBy(["YEAR(start_time)" => SORT_ASC])
-            ->all();
-
-        $heroByCampaign = (new \yii\db\Query())
-            ->select(['campaign_id', 'count' => 'COUNT(*)'])
-            ->from(HeroInfo::tableName())
-            ->groupBy(['campaign_id'])
-            ->orderBy(['campaign_id' => SORT_ASC])
-            ->all();
+        // 英雄数按战役取 Top 10，避免横轴过长
+        $heroByCampaign = $cache->getOrSet('dashboard_hero_by_campaign_top10', function() {
+            return (new \yii\db\Query())
+                ->select(['campaign_id', 'count' => 'COUNT(*)'])
+                ->from(HeroInfo::tableName())
+                ->groupBy(['campaign_id'])
+                ->orderBy(['count' => SORT_DESC])
+                ->limit(10)
+                ->all();
+        }, 300);
 
         return $this->render('index', [
-            'totals' => [
-                'relics' => $totalRelics,
-                'docs' => $totalDocs,
-                'heroes' => $totalHeroes,
-                'campaigns' => $totalCampaigns,
-                'members' => $totalMembers,
-                'teams' => $totalTeams,
-                'messages' => $totalMessages,
-            ],
+            'totals' => $totals,
             'messagesLast7' => $messagesLast7,
             'messageTrend' => $messageTrend,
             'campaignByYear' => $campaignByYear,
