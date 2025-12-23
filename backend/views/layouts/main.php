@@ -92,6 +92,22 @@ AppAsset::register($this);
                         <span class="nav-item__label">数据统计</span>
                     </a>
                 </div>
+
+                <div class="nav-section">
+                    <div class="nav-section__title">系统管理</div>
+                    <a href="<?= Html::encode(Yii::$app->urlManager->createUrl(['/rbac/index'])) ?>" class="nav-item<?= Yii::$app->controller->id === 'rbac' ? ' active' : '' ?>">
+                        <span class="nav-item__icon glyphicon glyphicon-education"></span>
+                        <span class="nav-item__label">RBAC 管理</span>
+                    </a>
+                    <a href="<?= Html::encode(Yii::$app->urlManager->createUrl(['/tools/index'])) ?>" class="nav-item<?= Yii::$app->controller->id === 'tools' ? ' active' : '' ?>">
+                        <span class="nav-item__icon glyphicon glyphicon-wrench"></span>
+                        <span class="nav-item__label">系统工具</span>
+                    </a>
+                    <a href="<?= Html::encode(Yii::$app->urlManager->createUrl(['/export/index'])) ?>" class="nav-item<?= Yii::$app->controller->id === 'export' ? ' active' : '' ?>">
+                        <span class="nav-item__icon glyphicon glyphicon-download-alt"></span>
+                        <span class="nav-item__label">数据导出</span>
+                    </a>
+                </div>
             </nav>
         </aside>
     <?php endif; ?>

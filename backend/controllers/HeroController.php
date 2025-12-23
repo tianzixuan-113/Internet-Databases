@@ -43,6 +43,33 @@ class HeroController extends Controller
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
+    public function actionBoard($q = '', $campaign_id = null)
+    {
+        $query = HeroInfo::find();
+        $q = trim((string)$q);
+        if ($q !== '') {
+            $query->andFilterWhere(['like', 'hero_name', $q])
+                  ->orFilterWhere(['like', 'deed', $q])
+                  ->orFilterWhere(['like', 'native_place', $q]);
+        }
+        if ($campaign_id !== null && $campaign_id !== '') {
+            $query->andWhere(['campaign_id' => (int)$campaign_id]);
+        }
+        $query->orderBy(['hero_id' => SORT_ASC]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 24],
+        ]);
+
+        $campaignOptions = \yii\helpers\ArrayHelper::map(WarCampaign::find()->orderBy(['campaign_id' => SORT_ASC])->all(), 'campaign_id', 'campaign_name');
+        return $this->render('board', [
+            'dataProvider' => $dataProvider,
+            'campaignOptions' => $campaignOptions,
+            'q' => $q,
+            'campaign_id' => $campaign_id,
+        ]);
+    }
+
     public function actionCreate()
     {
         $model = new HeroInfo();

@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('新增战役', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('切换为时间轴', ['timeline'], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= GridView::widget([

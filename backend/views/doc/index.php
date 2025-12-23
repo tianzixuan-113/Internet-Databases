@@ -5,7 +5,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="doc-index">
 <h1><?= Html::encode($this->title) ?></h1>
-<p><?= Html::a('新增文献', ['create'], ['class' => 'btn btn-success']) ?></p>
+<p>
+    <?= Html::a('新增文献', ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('切换为时间轴', ['timeline'], ['class' => 'btn btn-default']) ?>
+</p>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [

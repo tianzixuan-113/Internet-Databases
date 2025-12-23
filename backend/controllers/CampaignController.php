@@ -47,6 +47,27 @@ class CampaignController extends Controller
         ]);
     }
 
+    public function actionTimeline($q = '')
+    {
+        $q = trim((string)$q);
+        $rows = WarCampaign::find()->orderBy(['start_time' => SORT_ASC])->all();
+        $groups = [];
+        foreach ($rows as $c) {
+            $year = '未知年份';
+            if (!empty($c->start_time)) {
+                $y = (int)date('Y', strtotime($c->start_time));
+                if ($y > 0) $year = (string)$y;
+            }
+            if ($q !== '') {
+                $hay = ($c->campaign_name . ' ' . ($c->location ?? '') . ' ' . ($c->description ?? ''));
+                if (mb_stripos($hay, $q) === false) continue;
+            }
+            $groups[$year][] = $c;
+        }
+        ksort($groups);
+        return $this->render('timeline', [ 'groups' => $groups, 'q' => $q ]);
+    }
+
     public function actionCreate()
     {
         $model = new WarCampaign();

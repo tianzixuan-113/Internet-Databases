@@ -5,7 +5,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="image-index">
 <h1><?= Html::encode($this->title) ?></h1>
-<p><?= Html::a('新增图片', ['create'], ['class' => 'btn btn-success']) ?></p>
+<p>
+    <?= Html::a('新增图片', ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('切换为画廊', ['gallery'], ['class' => 'btn btn-default']) ?>
+</p>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [

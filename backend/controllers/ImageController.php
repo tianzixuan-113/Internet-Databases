@@ -29,6 +29,28 @@ class ImageController extends Controller
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
+    public function actionGallery($q = '', $host = '')
+    {
+        $query = ImageResource::find();
+        $q = trim((string)$q); $host = trim((string)$host);
+        if ($q !== '') {
+            $query->andFilterWhere(['like', 'img_url', $q]);
+        }
+        if ($host !== '') {
+            $query->andWhere(['like', 'img_url', $host]);
+        }
+        $query->orderBy(['img_id' => SORT_DESC]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 40],
+        ]);
+        return $this->render('gallery', [
+            'dataProvider' => $dataProvider,
+            'q' => $q,
+            'host' => $host,
+        ]);
+    }
+
     public function actionCreate()
     {
         $model = new ImageResource();
