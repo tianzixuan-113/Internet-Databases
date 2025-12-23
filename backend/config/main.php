@@ -11,7 +11,7 @@ return [
     'name' => '抗战胜利80周年纪念后台',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'backend\\components\\VisitBootstrap'],
     'modules' => [],
     'components' => [
         'request' => [

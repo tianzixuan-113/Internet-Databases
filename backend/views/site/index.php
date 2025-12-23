@@ -6,6 +6,7 @@
 /* @var $messageTrend int|null */
 /* @var $campaignByYear array */
 /* @var $heroByCampaign array */
+/* @var $visitTrend array */
 
 use yii\helpers\Json;
 
@@ -16,6 +17,9 @@ $campaignYearCounts = array_column($campaignByYear, 'count');
 
 $heroCampaignLabels = array_column($heroByCampaign, 'campaign_id');
 $heroCampaignCounts = array_column($heroByCampaign, 'count');
+
+$visitLabels = array_column($visitTrend, 'day');
+$visitCounts = array_column($visitTrend, 'count');
 ?>
 
 <div class="dashboard">
@@ -72,6 +76,18 @@ $heroCampaignCounts = array_column($heroByCampaign, 'count');
             </div>
             <div style="height:240px; max-width:100%; overflow:hidden;">
                 <canvas id="resourcePieChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-row">
+        <div class="dashboard-panel dashboard-panel--lg">
+            <div class="dashboard-panel__header">
+                <div class="dashboard-panel__title">近 7 日后台访问量</div>
+                <div class="dashboard-panel__subtitle">按日统计后台页面访问次数</div>
+            </div>
+            <div style="height:240px; max-width:100%; overflow:hidden;">
+                <canvas id="visitLineChart" height="220"></canvas>
             </div>
         </div>
     </div>
@@ -169,6 +185,36 @@ $heroCampaignCounts = array_column($heroByCampaign, 'count');
                     labels: { fontColor: '#d1d5db' }
                 },
                 cutoutPercentage: 65
+            }
+        });
+    })();
+</script>
+
+<script>
+    (function() {
+        var vctx = document.getElementById('visitLineChart');
+        if (!vctx) return;
+        var labels = <?= Json::encode($visitLabels) ?>;
+        var counts = <?= Json::encode($visitCounts) ?>;
+        new Chart(vctx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '访问量',
+                    data: counts,
+                    borderColor: 'rgba(56, 189, 248, 1)',
+                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{ ticks: { beginAtZero: true, precision: 0 } }],
+                    xAxes: [{ gridLines: { color: 'rgba(148, 163, 184, 0.2)' } }]
+                }
             }
         });
     })();

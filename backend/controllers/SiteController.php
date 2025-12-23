@@ -117,12 +117,20 @@ class SiteController extends Controller
                 ->all();
         }, 300);
 
+        // 前台访问统计（近7天）基于共享缓存的日计数（fvisit:*）
+        $visitTrend = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $day = date('Y-m-d', time() - $i * 86400);
+            $visitTrend[] = ['day' => $day, 'count' => (int)Yii::$app->cache->get('fvisit:day:' . $day)];
+        }
+
         return $this->render('index', [
             'totals' => $totals,
             'messagesLast7' => $messagesLast7,
             'messageTrend' => $messageTrend,
             'campaignByYear' => $campaignByYear,
             'heroByCampaign' => $heroByCampaign,
+            'visitTrend' => $visitTrend,
         ]);
     }
 
