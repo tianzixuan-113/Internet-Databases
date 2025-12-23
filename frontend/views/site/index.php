@@ -482,6 +482,7 @@ $this->title = '抗战胜利80周年 · 团队主页';
             <?= Html::a('<i class="glyphicon glyphicon-search"></i> 搜索数据', ['search/index'], ['class' => 'btn btn-minimal']) ?>
             <?= Html::a('<i class="glyphicon glyphicon-picture"></i> 图片资源', ['image/index'], ['class' => 'btn btn-minimal']) ?>
             <?= Html::a('<i class="glyphicon glyphicon-comment"></i> 留言板', ['message/index'], ['class' => 'btn btn-minimal']) ?>
+            <?= Html::a('<i class="glyphicon glyphicon-download-alt"></i> 作业下载', ['download/index'], ['class' => 'btn btn-minimal btn-dark']) ?>
         </div>
 
         <div class="row mt-5">

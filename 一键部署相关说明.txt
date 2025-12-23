@@ -1,0 +1,27 @@
+快速使用:./deploy.bat
+
+位置: 在 advanced/deploy.bat。
+作用: 一键在本机启动前台和后台 PHP 内置服务器，并可选导入数据库。
+前置条件
+
+PHP: 已安装并在 PATH 中（Windows 终端执行 php -v 能显示版本）。
+Composer: 可选，用于自动安装依赖（没有也能启动，但 vendor 缺失会影响部分功能）。
+MySQL 客户端: 可选，用于自动导入 war_resistance_db.sql。
+如何运行
+
+在项目根目录 advanced 中双击运行 deploy.bat，或在 PowerShell/CMD 中执行：
+如果 MySQL 需要密码，先设置环境变量再运行：
+默认行为
+
+端口: 后台 http://127.0.0.1:8088 ，前台 http://127.0.0.1:8089
+目录: 前台根在 web，后台根在 web
+数据库: 名称 war_resistance_db，主机 localhost，用户 root；密码从环境变量 DB_PASS 读取
+自动导入: 如果本机有 mysql 客户端且存在 war_resistance_db.sql，会自动创建并导入
+常见问题
+
+PHP 未找到: 安装 PHP 并将其加入 PATH；重试后脚本会继续
+Composer 未找到: 会跳过依赖安装；如需完整依赖，请手动运行：
+MySQL 客户端未找到或 SQL 缺失: 会跳过导入；可自行导入或配置 main-local.php
+停止服务
+
+本脚本用 start 启动两个独立窗口（标题为 “backend” 和 “frontend”）。直接关闭这两个窗口即可停止服务。
