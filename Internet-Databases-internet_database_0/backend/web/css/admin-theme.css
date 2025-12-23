@@ -1,0 +1,349 @@
+/* 抗战胜利80周年后台主题样式 */
+
+body.admin-body {
+    background-color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+.admin-layout {
+    min-height: 100vh;
+    display: flex;
+    color: #e5e7eb;
+}
+
+.admin-sidebar {
+    width: 230px;
+    background: radial-gradient(circle at 0 0, #1f2937 0, #020617 55%);
+    border-right: 1px solid rgba(148, 163, 184, 0.25);
+    display: flex;
+    flex-direction: column;
+    padding: 18px 14px;
+}
+
+.admin-sidebar__brand {
+    margin-bottom: 20px;
+}
+
+.admin-sidebar__brand .brand-main {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.admin-sidebar__brand .brand-sub {
+    font-size: 12px;
+    margin-top: 4px;
+    color: #9ca3af;
+}
+
+.admin-sidebar__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.nav-section {
+    margin-bottom: 18px;
+}
+
+.nav-section__title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6b7280;
+    margin: 10px 6px 6px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 13px;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.nav-item__icon {
+    font-size: 14px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.nav-item__label {
+    flex: 1;
+}
+
+.nav-item:hover {
+    background: linear-gradient(90deg, rgba(248, 250, 252, 0.08), rgba(248, 250, 252, 0));
+    color: #e4e6e8;
+    transform: translateX(1px);
+}
+
+.nav-item.active {
+    background: linear-gradient(90deg, #b91c1c, #7f1d1d);
+    color: #f9fafb;
+}
+
+.admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(circle at top left, #1f2937 0, #020617 45%);
+}
+
+.admin-topbar {
+    height: 64px;
+    padding: 10px 28px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(12px);
+}
+
+.admin-topbar__title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.admin-topbar__subtitle {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.topbar-link {
+    font-size: 13px;
+    color: #e5e7eb;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.topbar-link:hover {
+    background-color: rgba(148, 163, 184, 0.18);
+}
+
+.topbar-link--danger {
+    border-color: rgba(248, 113, 113, 0.6);
+}
+
+.topbar-link--danger:hover {
+    background-color: rgba(248, 113, 113, 0.18);
+}
+
+.topbar-user {
+    font-size: 13px;
+    margin-right: 10px;
+    color: #d1d5db;
+}
+
+.topbar-logout-form {
+    display: inline-block;
+}
+
+.admin-main__content {
+    padding: 18px 26px 20px;
+}
+
+.admin-breadcrumbs {
+    margin-bottom: 10px;
+}
+
+.admin-footer {
+    margin-top: auto;
+    padding: 8px 26px 14px;
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.admin-footer__inner {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.admin-footer__right {
+    opacity: 0.8;
+}
+
+.container {
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+
+.table > thead > tr > th {
+    background-color: #f7b7b7;
+}
+
+/* 仪表盘布局与卡片 */
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.dashboard-row {
+    display: flex;
+    gap: 16px;
+}
+
+.dashboard-row--top {
+    flex-wrap: wrap;
+}
+
+.dashboard-row--bottom .dashboard-panel {
+    flex: 1;
+}
+
+.metric-card {
+    background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9) 0, rgba(15, 23, 42, 0.6) 45%, rgba(15, 23, 42, 0.85) 100%);
+    border-radius: 10px;
+    padding: 14px 16px;
+    min-width: 180px;
+    color: #e5e7eb;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.metric-card--primary {
+    flex: 1.3;
+}
+
+.metric-card__label {
+    font-size: 12px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.metric-card__value {
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.metric-card__meta {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.metric-card__trend {
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.metric-card__trend-arrow {
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.metric-card__trend.is-up {
+    color: #4ade80;
+}
+
+.metric-card__trend.is-down {
+    color: #f97373;
+}
+
+.dashboard-panel {
+    background: rgba(15, 23, 42, 0.92);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.dashboard-panel--lg {
+    flex: 2;
+    min-height: 260px;
+}
+
+.dashboard-panel--sm {
+    flex: 1;
+    min-height: 260px;
+}
+
+.dashboard-panel--list {
+    min-height: 180px;
+}
+
+.dashboard-panel__header {
+    margin-bottom: 8px;
+}
+
+.dashboard-panel__title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dashboard-panel__subtitle {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.dashboard-list-placeholder {
+    font-size: 13px;
+    color: #9ca3af;
+    padding: 12px 0;
+}
+
+.btn-primary {
+    background-color: #8b0000;
+    border-color: #5c0000;
+}
+
+.btn-primary:hover {
+    background-color: #a40000;
+    border-color: #6a0000;
+}
+
+/* 提升按钮与白色背景的对比度 */
+.btn-default,
+.btn {
+    border-radius: 3px;
+}
+
+.btn-default {
+    background-color: #f0f0f0;
+    border-color: #cccccc;
+    color: #333333;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+    background-color: #e0e0e0;
+    border-color: #bbbbbb;
+    color: #111111;
+}
+
+/* 二级按钮（如“返回列表”等）也更明显一点 */
+.btn-link.logout {
+    color: #ffd6d6;
+}
+
+.btn-link.logout:hover {
+    color: #ffffff;
+}
+
+
+
+/* 覆盖表格斑马纹（奇数行） */
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(248, 113, 113, 0.12); /* 淡红色 */
+}
+
+/* 偶数行 */
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: rgba(15, 23, 42, 0.9); /* 深色背景 */
+}
+
+/* 表格文字颜色 */
+.table > tbody > tr > td {
+    color: #e5e7eb;
+}

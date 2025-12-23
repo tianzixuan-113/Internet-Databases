@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '烽火记忆',
+        'brandLabel' => '抗战主题信息展示系统',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -37,16 +37,13 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => '首页', 'url' => ['/site/index']],
-        ['label' => '英雄榜', 'url' => ['#']],
-        ['label' => '战役回顾', 'url' => ['#']],
-        ['label' => '数据总览', 'url' => ['#']],
-        ['label' => '史料文献', 'url' => ['#']],
-        ['label' => '图片资源', 'url' => ['#']],
-        ['label' => '文物展示', 'url' => ['#']],
-        ['label' => '关于', 'url' => ['/site/about']],
-        // 右侧功能图标（设置 / 寄语）
-        ['label' => '<i class="fa-solid fa-gear"></i>', 'url' => ['#'], 'options' => ['class' => 'nav-icon']],
-        ['label' => '<i class="fa-solid fa-seedling"></i>', 'url' => ['/site/message-board'], 'options' => ['class' => 'nav-icon'], 'linkOptions' => ['title' => '寄语']],
+        ['label' => '团队介绍', 'url' => ['/team/index']],
+        ['label' => '战役历史', 'url' => ['/campaign/index']],
+        ['label' => '抗战英雄', 'url' => ['/hero/index']],
+        ['label' => '史料文献', 'url' => ['/doc/index']],
+        ['label' => '图片资源', 'url' => ['/image/index']],
+        ['label' => '留言板', 'url' => ['/message/index']],
+        ['label' => '搜索数据', 'url' => ['/search/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -64,7 +61,6 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
-        'encodeLabels' => false,
     ]);
     NavBar::end();
     ?>
