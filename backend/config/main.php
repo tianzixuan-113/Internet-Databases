@@ -47,5 +47,16 @@ return [
         ],
         */
     ],
+    // 全局访问控制：允许 login/error，其他需 admin 角色
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['site/login', 'site/error'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['admin'],
+            ],
+        ],
+    ],
     'params' => $params,
 ];

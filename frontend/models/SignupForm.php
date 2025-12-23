@@ -54,7 +54,20 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
+        $ok = $user->save() && $this->sendEmail($user);
+        if ($ok) {
+            // 为新注册用户分配 user 角色（若 RBAC 可用）
+            try {
+                $auth = Yii::$app->authManager;
+                if ($auth) {
+                    $role = $auth->getRole('user');
+                    if ($role) { $auth->assign($role, (int)$user->id); }
+                }
+            } catch (\Throwable $e) {
+                // 忽略 RBAC 异常以不影响注册流程
+            }
+        }
+        return $ok;
 
     }
 
